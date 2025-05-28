@@ -9,6 +9,7 @@ services:
       - web
 
   web:
+    image: miapp_web:latest #para el swarm
     build:
       context: .
       dockerfile: Dockerfile
@@ -18,3 +19,10 @@ services:
     command: node src/server.js
     deploy:
       replicas: 3
+      resources:  #inicio escalamiento vertical
+        limits:
+          cpus: "1.00"  #1cpu por contenedor
+          memory: "512M"  #limita a 512 MB de RAM por contenedor
+        reservations:
+          cpus: "0.50"  #Reserva minima garantizada de CPU
+          memory: "256M"  #Reserva mimina garantizada de RAM
